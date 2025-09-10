@@ -1,13 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <p>
-        <a href="results.html">View Results (All Data)</a>
-    </p>
   <meta charset="utf-8" />
   <title>Results (All Data)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
   <header class="site-header">
@@ -46,10 +43,11 @@
     }
 
     fetch("/api/entries")
-      .then(r => r.json())
-      .then(j => {
-        if (!j.ok) throw new Error(j.error || "Failed");
-        const rows = j.data || [];
+      .then(async res => {
+        if (!res.ok) throw new Error("Failed to load");
+        return res.json(); // array of rows
+      })
+      .then(rows => {
         tbody.innerHTML = rows.map(r => `
           <tr>
             <td>${r.id}</td>

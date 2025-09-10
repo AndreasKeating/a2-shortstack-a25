@@ -18,6 +18,12 @@ const appdata = [
 ]
 
 //----------- Helper Functions -----------
+
+function withDerived(row) { //Determins age from the "year" field
+  const currentYear = new Date().getFullYear();
+  return { ...row, age: currentYear - Number(row.year)}; //age can be negative (I might need to add a checker)
+}
+
 function sendJSON(res, status, obj) {
   const body = JSON.stringify(obj);
   res.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
@@ -39,6 +45,9 @@ function readBody(req) {
     });
   });
 }
+
+
+
   // NECESSARY?:
 // // Serve a static file, preferring ./public if present, but gracefully falling back
 // // to your current project root files (index.html, main.js, main.css).
@@ -72,6 +81,8 @@ function readBody(req) {
 //   }));
 // }
 
+//----------------------------------------
+
 const server = http.createServer( function( request,response ) {
   if( request.method === "GET" ) {
     handleGet( request, response )    
@@ -81,28 +92,17 @@ const server = http.createServer( function( request,response ) {
 })
 
 const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-  if( request.url === "/" ) {
-    sendFile( response, "public/index.html" )
-  }else{
-    sendFile( response, filename )
+  if (request.url === "/api/entries") {
+    return sendJSON(response, 200, appdata.map(withDerived));
   }
+  if( request.url === "/" || request.url === "/index.html") {
+    return sendFile( response, "public/index.html" )
+  }
+
+  const filename = dir + request.url.slice( 1 )
+  return sendFile(response, filename)
 }
-// const handleGet = function( request, response ) {
-//   // API: return the entire server-resident dataset
-//   if( request.url === "/api/entries" ) {
-//     return sendJSON( response, 200, { ok: true, data: appdata } )
-//   }
 
-//   // Static files (homepage + everything under /public)
-//   if( request.url === "/" || request.url === "/index.html" ) {
-//     return sendFile( response, "public/index.html" )
-//   }
-
-//   const filename = dir + request.url.slice( 1 )
-//   return sendFile( response, filename )
-// }
 
 const handlePost = function( request, response ) {
   let dataString = ""
@@ -113,24 +113,19 @@ const handlePost = function( request, response ) {
 
   request.on( "end", function() {
     console.log( JSON.parse( dataString ) )
-    // ... do something with the data here!!!
 
     let body = {}
     try { body = JSON.parse( dataString || "{}" ) } catch { body = {} }
     
-    // *** minimal addition: maintain the server-side dataset here ***
     if ( request.url === "/api/entries" ) {
       const { model, year, mpg } = body || {}
 
-      // tiny validation to prove it's a tabular row with 3+ fields
-      if ( !model || !Number.isInteger(+year) || !Number.isFinite(+mpg) ) {
-        return sendJSON( response, 400, { ok:false, error:"Expected JSON: { model, year, mpg }" } )
-      }
-
-      const row = { id: nextId++, model: String(model), year: +year, mpg: +mpg }
-      appdata.push( row )
-      return sendJSON( response, 201, { ok:true, data: row } )
+      const base = { id: nextId++, model: String(model), year: +year, mpg: +mpg }
+      const full = withDerived(base)
+      appdata.push(full)
+      return sendJSON( response, 201, full )
     }
+
 
     // keep your original behavior for all other POSTs (e.g., /submit)
     console.log( body )
