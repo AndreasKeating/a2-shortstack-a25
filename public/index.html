@@ -14,5 +14,26 @@
       <input type="text" id="yourname" value="your name here">
       <button> submit </button>
     </form>
+
+  <hr>
+  <h2>Add Entry</h2>
+  <form id="add-form">
+    <label>Model <input type="text" name="model" required></label>
+    <label>Year <input type="number" name="year" required min="1886" step="1"></label>
+    <label>MPG <input type="number" name="mpg" required min="1" step="1"></label>
+    <button type="submit">Add</button>
+  </form>
+
+  <h2>Delete Entry</h2>
+  <form id="delete-form">
+    <label>ID <input type="number" name="id" required min="1" step="1"></label>
+    <button type="submit">Delete</button>
+  </form>
+      
+
+    <p>
+      <a href="results.html">View Results (All Data)</a>
+    </p>
+
   </body>
 </html>

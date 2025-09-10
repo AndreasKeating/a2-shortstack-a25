@@ -46,41 +46,6 @@ function readBody(req) {
   });
 }
 
-
-
-  // NECESSARY?:
-// // Serve a static file, preferring ./public if present, but gracefully falling back
-// // to your current project root files (index.html, main.js, main.css).
-// function serveStatic(urlPath, res) {
-//   // map "/" → index.html
-//   const requested = urlPath === "/" ? "index.html" : urlPath.replace(/^\//, "");
-
-//   // first try ./public/<path>
-//   const publicPath = path.join(".", dir, requested);
-
-//   // small compatibility map for your current paths
-//   // (index.html references "js/main.js" and "css/main.css" from project root)
-//   const fallbacks = {
-//     "js/main.js": "main.js",
-//     "css/main.css": "main.css"
-//   }; 
-
-//   const rootPath = path.join(".", fallbacks[requested] || requested);
-
-//   const trySend = (p, next) => {
-//     fs.readFile(p, (err, content) => {
-//       if (err) return next();
-//       res.writeHead(200, { "Content-Type": mime.getType(p) || "application/octet-stream" });
-//       res.end(content);
-//     });
-//   };
-
-//   trySend(publicPath, () => trySend(rootPath, () => {
-//     res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
-//     res.end("404 Error: File Not Found");
-//   }));
-// }
-
 //----------------------------------------
 
 const server = http.createServer( function( request,response ) {
@@ -126,8 +91,6 @@ const handlePost = function( request, response ) {
       return sendJSON( response, 201, full )
     }
 
-
-    // keep your original behavior for all other POSTs (e.g., /submit)
     console.log( body )
 
     response.writeHead( 200, "OK", {"Content-Type": "text/plain" })
@@ -140,7 +103,6 @@ const sendFile = function( response, filename ) {
 
    fs.readFile( filename, function( err, content ) {
 
-     // if the error = null, then we"ve loaded the file successfully
      if( err === null ) {
 
        // status code: https://httpstatuses.com
