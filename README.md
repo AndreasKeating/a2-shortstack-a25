@@ -6,7 +6,6 @@ Repo: https://github.com/AndreasKeating/a2-shortstack-a25
 ---
 
 ## What it does:
-
 - Server serves files from "/public" and maintains a dataset in memory.
 - Dataset fields (per row): "id", "model", "year", "mpg"  
   Derived field: "age = currentYear - year" (computed on the server).
@@ -16,6 +15,10 @@ Repo: https://github.com/AndreasKeating/a2-shortstack-a25
 - All pages reachable from the homepage (link to Results).
 - CSS in an external stylesheet; uses element, #id, and class selectors.
 - Layout + font: Flexbox for header/nav and a non-default Google font.
+
+## Achievements
+- Accessibility polish: Associated "<label>"s with inputs via "for"/"id". Added a visible keyboard focus style (":focus-visible") for better tab navigation.
+- Results summary: On "results.html", shows total count and average MPG computed client-side above the table.
 
 ---
 

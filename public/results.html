@@ -15,9 +15,12 @@
     <header class="site-header">
         <h1 id="results-title">Results (All Data)</h1>
         <nav class="nav">
-        <a class="nav__link" href="index.html">Home</a>
+            <a class="nav__link" href="index.html">Home</a>
         </nav>
     </header>
+
+    <section id="summary" class="card" aria-live="polite"></section>
+
 
     <main class="card" style="margin:1rem;">
         <div class="table-wrap">
@@ -54,18 +57,28 @@
             return res.json(); // array of rows
         })
         .then(rows => {
+            const count = rows.length;
+            const avgMpg = count
+                ? (rows.reduce((sum, r) => sum + Number(r.mpg || 0), 0) / count).toFixed(1)
+                : "0.0";
+            const summary = document.getElementById("summary");
+            if (summary) {
+                summary.innerHTML = `<strong>${count}</strong> cars • average MPG: <strong>${avgMpg}</strong>`;
+            }
+
             tbody.innerHTML = rows.map(r => `
-            <tr>
+                <tr>
                 <td>${r.id}</td>
                 <td>${escapeHtml(r.model)}</td>
                 <td>${r.year}</td>
                 <td>${r.mpg}</td>
                 <td>${r.age}</td>
-            </tr>
+                </tr>
             `).join("");
+
             statusEl.textContent = `Loaded ${rows.length} item(s).`;
         })
-        .catch(err => statusEl.textContent = err.message);
+        .catch(err => { statusEl.textContent = err.message; });
     </script>
 </body>
 </html>
