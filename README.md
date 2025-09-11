@@ -3,7 +3,6 @@
 Deployed: https://a2-shortstack-a25-lyzg.onrender.com 
 Repo: https://github.com/AndreasKeating/a2-shortstack-a25
 
----
 
 ## What it does:
 - Server serves files from "/public" and maintains a dataset in memory.
