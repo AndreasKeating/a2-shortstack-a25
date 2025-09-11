@@ -5,10 +5,14 @@
     <meta charset="utf-8">
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/main.css">
-    
-    <!-- get rid of favicon error -->
+      
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
+
   <body>
     <form>
       <input type="text" id="yourname" value="your name here">
@@ -21,15 +25,17 @@
     <label>Model <input type="text" name="model" required></label>
     <label>Year <input type="number" name="year" required min="1886" step="1"></label>
     <label>MPG <input type="number" name="mpg" required min="1" step="1"></label>
+
     <button type="submit">Add</button>
   </form>
 
   <h2>Delete Entry</h2>
   <form id="delete-form">
     <label>ID <input type="number" name="id" required min="1" step="1"></label>
+
     <button type="submit">Delete</button>
   </form>
-      
+        
 
     <p>
       <a href="results.html">View Results (All Data)</a>

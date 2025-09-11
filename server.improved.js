@@ -96,8 +96,12 @@ const handlePost = function( request, response ) {
     if (request.url === "/api/delete") {
       const id = Number(body && body.id);
       const idx = appdata.findIndex(r => Number(r.id) === id);
+
+      if (idx === -1){ //in case ID doesn't exist
+        return sendJSON(response, 404, { error: "Item not found" });
+      }
+
       const removed = appdata.splice(idx, 1)[0];
-      
       return sendJSON(response, 200, removed);
     }
 
