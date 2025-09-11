@@ -82,13 +82,23 @@ const handlePost = function( request, response ) {
     let body = {}
     try { body = JSON.parse( dataString || "{}" ) } catch { body = {} }
     
+    //--ADD Handler (server) --------------
     if ( request.url === "/api/entries" ) {
       const { model, year, mpg } = body || {}
-
       const base = { id: nextId++, model: String(model), year: +year, mpg: +mpg }
       const full = withDerived(base)
       appdata.push(full)
+
       return sendJSON( response, 201, full )
+    }
+
+    //--DELETE Handler (server) --------------
+    if (request.url === "/api/delete") {
+      const id = Number(body && body.id);
+      const idx = appdata.findIndex(r => Number(r.id) === id);
+      const removed = appdata.splice(idx, 1)[0];
+      
+      return sendJSON(response, 200, removed);
     }
 
     console.log( body )

@@ -23,6 +23,7 @@
             <th>Model</th>
             <th>Year</th>
             <th>MPG</th>
+            <th>Age</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -54,6 +55,7 @@
             <td>${escapeHtml(r.model)}</td>
             <td>${r.year}</td>
             <td>${r.mpg}</td>
+            <td>${r.age}</td>
           </tr>
         `).join("");
         statusEl.textContent = `Loaded ${rows.length} item(s).`;
